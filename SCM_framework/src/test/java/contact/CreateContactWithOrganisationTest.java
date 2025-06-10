@@ -22,12 +22,12 @@ import com.crm.objectrepository.*;
 
 
 
-public class CreateContactWithOrganisation extends BaseClass {
+public class CreateContactWithOrganisationTest extends BaseClass {
 
 	//public static void main(String[] args) throws Throwable {
 		// TODO Auto-generated method stub
-		@Test
-		public void createContactWithOrganisation() throws Throwable
+		@Test(groups="regressionTest")
+		public void createContactWithOrganisationTest() throws Throwable
 		{
 		//FileUtility futil = new FileUtility();
 		ExcelUtility ex=new ExcelUtility();

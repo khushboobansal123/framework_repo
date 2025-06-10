@@ -21,7 +21,7 @@ import com.crm.generic.BaseClassUtility.BaseClass;
 import com.crm.objectrepository.HomePage;
 import com.crm.objectrepository.OrganisationPage;
 
-public class CreateOrganisationWithIndustry extends BaseClass {
+public class CreateOrganisationWithIndustryTest extends BaseClass {
 
 	//public static void main(String[] args) throws Throwable {
 		// TODO Auto-generated method stub

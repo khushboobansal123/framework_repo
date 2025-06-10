@@ -46,8 +46,8 @@ WebDriver driver;
 	public void login()
 	{
 	
-		getUserEdit().sendKeys("admin");
-		getPassEdit().sendKeys("admin");
+		getUserEdit().sendKeys(System.getProperty("username", "admin"));
+		getPassEdit().sendKeys(System.getProperty("password","admin"));
 		getLoginBtn().click();
 	}
 	

@@ -23,12 +23,12 @@ import com.crm.generic.BaseClassUtility.BaseClass;
 import com.crm.objectrepository.ContactPage;
 
 @Listeners(com.crm.generic.ListenerUtility.ListImp.class)
-public class CreateContactWithLastName extends BaseClass{
+public class CreateContactWithLastNameTest extends BaseClass{
 
 	//public static void main(String[] args) throws Throwable {
 		// TODO Auto-generated method stub
-		@Test()
-		public void createContactWithLastName() throws Throwable {
+		@Test(groups="regressionTest")
+		public void createContactWithLastNameTest() throws Throwable {
 		//FileUtility futil = new FileUtility();
 		ExcelUtility ex=new ExcelUtility();
 		//String Browser = futil.getDataFromProp("bro");

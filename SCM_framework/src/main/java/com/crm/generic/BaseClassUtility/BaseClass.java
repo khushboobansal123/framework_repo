@@ -28,6 +28,7 @@ public class BaseClass {
 	
 	
 	
+	
 	@BeforeSuite(groups= {"smokeTest","regressionTest"})
 	public void bSuite()
 	{
@@ -39,9 +40,12 @@ public class BaseClass {
 	public void bClass() throws Throwable
 	{
 		
-		String Browser = futil.getDataFromProp("bro");
+		//String Browser = futil.getDataFromProp("bro");
+		String Browser=System.getProperty("bro", futil.getDataFromProp("bro"));
+		
 		//String Browser=browser;
-		String URL = futil.getDataFromProp("url");
+		//String URL = futil.getDataFromProp("url");
+		String URL=System.getProperty("url", futil.getDataFromProp("url"));
 		
 		if(Browser.equalsIgnoreCase("chrome"))
 		{

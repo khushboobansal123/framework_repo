@@ -6,10 +6,13 @@
 <include name="smokeTest"></include>
 </run>
 </groups>
+<listeners>
+<listener class-name="com.crm.generic.ListenerUtility.ListImp"></listener>
+</listeners>
   <test thread-count="5" name="Test">
     <classes>
-      <class name="organisation.CreateOrganisationWithIndustry"/>
-      <class name="organisation.CreateOrganisaton"/>
+      <class name="organisation.CreateOrganisationWithIndustryTest"/>
+      <class name="organisation.CreateOrganisatonTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

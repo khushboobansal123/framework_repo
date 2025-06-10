@@ -21,13 +21,14 @@ import com.scm.generic.fileutility.FileUtility;
 import com.crm.generic.BaseClassUtility.BaseClass;
 import com.crm.objectrepository.HomePage;
 
-public class CreateOrganisaton extends BaseClass {
+
+public class CreateOrganisatonTest extends BaseClass {
 
 	//public static void main(String[] args) throws Throwable {
 		// TODO Auto-generated method stub
 		       
 	           @Test(groups="smokeTest")
-	           public void createOrganisation() throws Throwable
+	           public void createOrganisationTest() throws Throwable
 	           {
 		       //FileUtility futil = new FileUtility();
 		       ExcelUtility ex=new ExcelUtility();
