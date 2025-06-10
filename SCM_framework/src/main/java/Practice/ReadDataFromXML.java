@@ -2,17 +2,17 @@ package Practice;
 
 
 import org.testng.annotations.Test;
-import org.testng.xml.XmlTest;
+
 
 public class ReadDataFromXML {
 	
 	@Test
-	public void sampleTest(XmlTest test)
+	public void sampleTest()
 	{
-		System.out.println(test.getParameter("browser"));
-		System.out.println(test.getParameter("url"));
-		System.out.println(test.getParameter("username"));
-		System.out.println(test.getParameter("password"));
+		System.out.println("url");
+		System.out.println("password");
+		System.out.println("browser");
+		System.out.println("username");
 	}
 	
 
