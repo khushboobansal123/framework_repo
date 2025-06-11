@@ -92,5 +92,9 @@ public class CreateContactWithLastNameTest extends BaseClass{
 
 
 	}
+		
+		@Test(groups="regressionTest")
+		public void createConwithDate() {
+			System.out.println("Contact with date is created");		}
 
 }
