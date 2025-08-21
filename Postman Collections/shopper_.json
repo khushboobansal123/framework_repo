@@ -1,0 +1,1102 @@
+{
+	"info": {
+		"_postman_id": "e4426ca6-e953-4e56-bae3-1305dd770583",
+		"name": "Shopper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "shopperLogin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a251b5b-2832-4f31-939d-c90e5e7a45a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"email address\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.email).to.eql(pm.globals.get(\"email\"));\r",
+									"});\r",
+									"\r",
+									"body=JSON.parse(responseBody)\r",
+									"pm.globals.set(\"shopperId\", body.data.userId);\r",
+									"pm.globals.set(\"token\", body.data.jwtToken);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "3b5ec705-1606-4c29-a295-2f666381bd8a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\":\"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"role\": \"SHOPPER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/users/login"
+					},
+					"response": []
+				}
+			],
+			"id": "51dfe428-5b18-4099-afef-b6036df8c1ef"
+		},
+		{
+			"name": "view products",
+			"item": [
+				{
+					"name": "viewDefaultProducts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7148e9b0-de5a-43a5-b863-caeb94d59333",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"body=JSON.parse(responseBody)\r",
+									"pm.globals.set(\"productId\", body.data[1].productId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "f788b835-f41e-453f-8c52-e4f5b9727d74",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\":\"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"role\": \"SHOPPER\"\r\n}"
+						},
+						"url": "{{BaseURL}}/products/alpha"
+					},
+					"response": []
+				}
+			],
+			"id": "eaad3704-a7be-4729-8e86-ae98496227aa"
+		},
+		{
+			"name": "wishlist",
+			"item": [
+				{
+					"name": "addProductToWishList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cad78dbc-f8e9-4c70-9e30-b7e9866cc16a",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"pm.globals.get(\"productId\");\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.productId).to.eql(pm.globals.get(\"productId\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "6d89c22d-fb87-4696-8e97-735474783a01",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/wishlist"
+					},
+					"response": []
+				},
+				{
+					"name": "viewProductsFromWishlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb690c6f-71c2-4e7c-b6b4-65197276618b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "43ffecbe-5f70-401e-b1cc-de8430df10ba",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/wishlist"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductFromWishlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "63a5f448-f2ab-4cd0-ac7d-739aa3860bd1",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"No Content\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "d083c9f9-e527-4215-9c62-ab180bd6dabd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/wishlist/{{productId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "393f5e46-0070-4e7f-bb5e-429d78e622d8"
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "addProductToCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dca6c355-00bb-4e5f-b448-7a52221abd1f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.productId).to.eql(pm.globals.get(\"productId\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"let itemId = response.data.itemId;\r",
+									"pm.globals.set(\"itemId\", itemId);\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.quantity).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "5c285334-27b1-4018-bbb4-dd069c32f828",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "getProductFromCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f366c8d-9fb1-4e6a-88f1-4192f2fc7022",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[0].productId).to.eql(pm.globals.get(\"productId\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[0].quantity).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "e1c53d36-90dd-4b92-9900-8ffde6eba59a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "updateAProductInCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a4d4c193-3b5c-4212-ab0e-d93c0536b7a9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.productId).to.eql(pm.globals.get(\"productId\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.quantity).to.eql(2);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "d98dcf27-9cad-4e07-8834-9eca11c2c54d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/carts/{{itemId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "16fdd01b-2765-4832-8178-2dbcd5d0e82c",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "af897122-b550-47c1-bfd5-1e715235ce34",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c704984-4b91-434f-9c18-4f7147bfe5b6",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "addAddress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cda20a4b-92d7-40cb-8cdb-0d3963a4ed23",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"body=JSON.parse(responseBody);\r",
+									"pm.globals.set(\"addressId\",body.data.addressId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "7f4686ce-4a35-4fab-a6b1-5ec12db25cbf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"buildingInfo\": \"No34, 1st floor\",\r\n  \"city\": \"Bangalore\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Opposite of Paytm Building\",\r\n  \"name\": \"BB Palace\",\r\n  \"phone\": \"7894561230\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"Karnataka\",\r\n  \"streetInfo\": \"13th main Street\",\r\n  \"type\": \"Home\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/address"
+					},
+					"response": []
+				},
+				{
+					"name": "getAParticularAddressByAddressId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f79ccea-e46e-4a92-be45-ed59a2ec6988",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2159c4d5-a227-4b01-a89b-61f7a6c30f0b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/address/{{addressId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "updateYourAddedAddress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b46c089-d68b-44f3-887c-11148999ce0a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "1f4d7465-ff21-4c89-9348-4abd76d559cb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"buildingInfo\": \"No 67\",\r\n  \"city\": \"Bangalore\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"thele wale ke samne\",\r\n  \"name\": \"Main Road\",\r\n  \"phone\": \"4567891230\",\r\n  \"pincode\": \"560010\",\r\n  \"state\": \"Karnataka\",\r\n  \"streetInfo\": \"Main street\",\r\n  \"type\": \"Office\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/address/{{addressId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "63300e08-8305-494c-b905-365ccf08d037",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f9d85452-c8ae-4966-8c09-cb523efb0aa9",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2844f13-c95c-4246-9513-0b4f5b598199",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "placeOrder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "989e5c98-b414-4f90-a31f-8c71175bfe15",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"body=JSON.parse(responseBody)\r",
+									"pm.globals.set(\"orderId\", body.data.orderId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "bf5190ca-ba84-40b7-b109-e4e293f73746",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"address\": {\r\n    \"addressId\": {{addressId}}\r\n  },\r\n  \"paymentMode\": \"COD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "orderHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "feb7233f-da53-4aa4-bf2d-af8c1000836f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "1e81b966-8445-4e8b-bd32-1af9a2517f8c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "updareOrderStatus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08df6453-495b-4383-ac88-22eb49afc981",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"orderstatus\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.orderStatus).to.eql(\"DELIVERED\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "cad8be2c-c75d-4948-9788-d276efa19473",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/shoppers/{{shopperId}}/orders/{{orderId}}?status=DELIVERED",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{shopperId}}",
+								"orders",
+								"{{orderId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "DELIVERED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generateInvoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e38ee13a-3040-4e36-9c7a-c2772948bad9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "bcbe86dc-45ca-474b-83d9-dd6ef5d28a26",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/orders/{{orderId}}/invoice"
+					},
+					"response": []
+				}
+			],
+			"id": "62f9df2c-d4c0-4f29-8797-5c88af54ef1a",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39d144c7-4c0f-4c97-b11a-181903da45d0",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4803ab3c-bbdb-4c90-9f97-67e7c914f323",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "addReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7497bbf8-f282-4263-af1c-b63329ccc706",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"body=JSON.parse(responseBody)\r",
+									"pm.globals.set(\"reviewId\", body.data.reviewId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2788f9ca-9618-46f0-a7d7-b074b9e8e742",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"very good in using it daily\",\r\n  \"heading\": \"amazing product\",\r\n  \"rating\": 3,\r\n  \"shopperId\": {{shopperId}},\r\n  \"shopperName\": \"abc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/reviews?productId={{productId}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "{{productId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "66c1de11-17f3-4127-a87f-2b2846da0ddc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "8613e560-b0df-47b4-bb75-e18caf4e77e1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseURL}}/reviews/{{productId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "updateReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f67fb87-861c-4faa-a957-d9886430558e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2f32d3ab-86ff-4321-a961-82d8f987331e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"can not weat it daily\",\r\n  \"heading\": \"it is not good\",\r\n  \"rating\": 1,\r\n  \"shopperId\": {{shopperId}},\r\n  \"shopperName\": \"abc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/reviews/{{reviewId}}?productId={{productId}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"reviews",
+								"{{reviewId}}"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "{{productId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5acdfa9e-60c8-4658-a284-d9443aa28514",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "1e49b53e-b0ae-450f-96ab-5d834584a0d1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/reviews/{{reviewId}}?productId={{productId}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"reviews",
+								"{{reviewId}}"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "{{productId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45f21b7e-799b-4693-9828-a5bf2e4a949b",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e3cb5a5a-6171-4f53-9745-ae5183ac3cbc",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "92be8705-ef96-4f26-b4a8-6dc95ff298b3",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "deleteAddress",
+			"item": [
+				{
+					"name": "deleteAnAddress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3afeeaa-8f8e-4a57-9e2f-120ca4be036d",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"No Content\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "3052a70e-8634-49fa-9d81-527cc7069315",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BaseURL}}/shoppers/{{shopperId}}/address/{{addressId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "12226784-ca48-414e-9b62-0b6096757872",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aa3f1066-f37e-42d3-8f78-431c1800b215",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "15173725-ac13-466e-9b20-0ed3f483a4fb",
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
